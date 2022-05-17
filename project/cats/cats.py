@@ -233,10 +233,10 @@ def minimum_mewtations(start, goal, limit):
     """
     
 
-    if limit < 0:  # Fill in the condition
+    if limit == -1:  # Fill in the condition
         # BEGIN
         "*** YOUR CODE HERE ***"
-        return 0
+        return 1
         # END
 
     elif len(start) == 0 or len(goal) == 0:  # Feel free to remove or add additional cases
@@ -260,8 +260,7 @@ def minimum_mewtations(start, goal, limit):
 def final_diff(start, goal, limit):
     """A diff function that takes in a string START, a string GOAL, and a number LIMIT.
     If you implement this function, it will be used."""
-    assert False, 'Remove this line to use your final_diff function.'
-
+    assert False, 'Remove this line to use your final_diff function'
 
 FINAL_DIFF_LIMIT = 6  # REPLACE THIS WITH YOUR LIMIT
 
@@ -296,6 +295,14 @@ def report_progress(sofar, prompt, user_id, upload):
     """
     # BEGIN PROBLEM 8
     "*** YOUR CODE HERE ***"
+    n = 0
+    for i in range(len(sofar)):
+        if sofar[i] == prompt[i]:
+            n += 1
+        else:
+            break
+    upload({'id': user_id, 'progress': n/len(prompt)})
+    return n/len(prompt)
     # END PROBLEM 8
 
 
@@ -318,6 +325,16 @@ def time_per_word(words, times_per_player):
     """
     # BEGIN PROBLEM 9
     "*** YOUR CODE HERE ***"
+    times = []
+    for i in times_per_player:
+        times_each_player = []
+        for k in range(1, len(i)):
+            times_each_player.append(i[k]-i[k-1])
+        times.append(times_each_player)
+    return {
+        "words":words,
+        "times":times
+    }
     # END PROBLEM 9
 
 
@@ -340,8 +357,24 @@ def fastest_words(match):
     word_indices = range(len(match["words"]))    # contains an *index* for each word
     # BEGIN PROBLEM 10
     "*** YOUR CODE HERE ***"
+    fastest_words_each_players = []
+    for i in range(len(match["times"])):
+        fastest_words_each_players.append([])
+    # print(fastest_words_each_players)
+    for i in word_indices:
+        fastplayer = 0
+        fasttime = match["times"][0][i]
+        for k in player_indices:
+            if match["times"][k][i] < fasttime:
+                fastplayer = k
+                fasttime = match["times"][k][i]
+            
+        fastest_words_each_players[fastplayer].append(word_at(match, word_index=i))  
+    return fastest_words_each_players
     # END PROBLEM 10
-
+# p0 = [2, 2, 3]
+# p1 = [6, 1, 2]
+# fastest_words(time_per_word(['What', 'great', 'luck'], [p0, p1]))
 
 def match(words, times):
     """A dictionary containing all words typed and their times.
