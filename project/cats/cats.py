@@ -57,12 +57,12 @@ def about(topic):
     assert all([lower(x) == x for x in topic]), 'topics should be lowercase.'
     # BEGIN PROBLEM 2
     "*** YOUR CODE HERE ***"
-    def judge(strLine):
-        strLine = lower(strLine)
-        strLine = remove_punctuation(strLine)
-        strLine1 = split(strLine)
+    def judge(paragraph):
+        paragraph = lower(paragraph)
+        paragraph = remove_punctuation(paragraph)
+        paragraph1 = split(paragraph)
         for i in topic:
-            if strLine1.count(i) > 0:
+            if paragraph1.count(i) > 0:
                 return True
         return False
     return judge
@@ -187,7 +187,6 @@ def sphinx_swaps(start, goal, limit):
     5
     >>> sphinx_swaps("rose", "hello", big_limit)   # Substitute: r->h, o->e, s->l, e->l, length difference of 1.
     5
-    """
     # BEGIN PROBLEM 6
     # method ①
     # if len(start) == 0:
@@ -200,6 +199,7 @@ def sphinx_swaps(start, goal, limit):
     #     return 0 + sphinx_swaps(start[1:], goal[1:],limit)
     # else:
     #     return 1 + sphinx_swaps(start[1:], goal[1:],limit-1)
+    """
     # method ②    
     def method2(i,limit):
         if i >= min(len(start), len(goal)):
@@ -231,14 +231,11 @@ def minimum_mewtations(start, goal, limit):
     >>> minimum_mewtations("ckiteus", "kittens", big_limit) # ckiteus -> kiteus -> kitteus -> kittens
     3
     """
-    
-
     if limit == -1:  # Fill in the condition
         # BEGIN
         "*** YOUR CODE HERE ***"
         return 1
         # END
-
     elif len(start) == 0 or len(goal) == 0:  # Feel free to remove or add additional cases
         # BEGIN
         "*** YOUR CODE HERE ***"
@@ -247,16 +244,14 @@ def minimum_mewtations(start, goal, limit):
     elif start[0] == goal[0]:
         return minimum_mewtations(start[1:], goal[1:], limit)
     else:
-        
-        # BEGIN
         "*** YOUR CODE HERE ***"
         add_diff = minimum_mewtations(start, goal[1:], limit-1)
         remove_diff = minimum_mewtations(start[1:], goal, limit-1)
         substitute_diff = minimum_mewtations(start[1:], goal[1:], limit-1)
         return 1 + min(add_diff, remove_diff, substitute_diff)
-        # END
-# big_limit = 10
-# minimum_mewtations("wird", "wiry", big_limit)
+
+
+
 def final_diff(start, goal, limit):
     """A diff function that takes in a string START, a string GOAL, and a number LIMIT.
     If you implement this function, it will be used."""
@@ -360,7 +355,6 @@ def fastest_words(match):
     fastest_words_each_players = []
     for i in range(len(match["times"])):
         fastest_words_each_players.append([])
-    # print(fastest_words_each_players)
     for i in word_indices:
         fastplayer = 0
         fasttime = match["times"][0][i]
@@ -368,7 +362,6 @@ def fastest_words(match):
             if match["times"][k][i] < fasttime:
                 fastplayer = k
                 fasttime = match["times"][k][i]
-            
         fastest_words_each_players[fastplayer].append(word_at(match, word_index=i))  
     return fastest_words_each_players
     # END PROBLEM 10
